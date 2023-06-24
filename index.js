@@ -4,7 +4,10 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require('express-session');
-const authMiddleware = require("./middlewares/auth.moddleware")
+const authMiddleware = require("./middlewares/auth.moddleware");
+const cors = require("cors");
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
 
 //  Require Models
 const User = require("./models/User.model");
@@ -26,7 +29,8 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-}))
+}));
+app.use(cors());
 
 
 
@@ -39,6 +43,8 @@ app.get("/", authMiddleware.isUser  , (req, res) => {
 // Routes
 
 app.use(require("./routes/auth.routes"));
+app.use(require("./routes/packages.routes"));
+app.use(require("./routes/subscription.routes"));
 
 
 
