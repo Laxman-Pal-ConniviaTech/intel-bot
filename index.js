@@ -34,14 +34,11 @@ app.use(cors());
 
 
 
-app.get("/", authMiddleware.isUser  , (req, res) => {
-  res.render("dashboard")
-});
-
-
 
 // Routes
 
+app.use(require("./routes/web.routes"));
+app.use(require("./routes/panel.routes"));
 app.use(require("./routes/auth.routes"));
 app.use(require("./routes/packages.routes"));
 app.use(require("./routes/subscription.routes"));

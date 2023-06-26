@@ -9,9 +9,8 @@ exports.getRegisteration = (req, res) => {
 exports.postRegistration = async (req, res) => {
     const {
         name,
-        username,
         email,
-        password
+        password,
     } = req.body;
 
 
@@ -20,7 +19,6 @@ exports.postRegistration = async (req, res) => {
 
         const newUser = await new User({
             name,
-            username,
             email,
             password: hashPassword,
         });
@@ -60,7 +58,7 @@ exports.postLogin = async (req, res) => {
         }
 
         req.session.userId = user._id;
-        res.redirect("/");
+        res.redirect("/dashboard");
     } catch (error) {
         console.log(error);
     }
