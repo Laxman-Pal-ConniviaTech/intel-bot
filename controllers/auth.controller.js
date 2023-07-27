@@ -1,5 +1,6 @@
 const User = require("../models/User.model")
 const bcrypt = require('bcrypt');
+const generateUniqueID = require("../utils/UniqueID");
 
 
 exports.getRegisteration = (req, res) => {
@@ -15,12 +16,25 @@ exports.postRegistration = async (req, res) => {
 
 
     try {
+
+
+       
+
+        if(!email || !password) {
+            return  res.redirect("/register");
+        }
+
+        const uniqueID =  generateUniqueID()
+
+
+
         const hashPassword = await bcrypt.hash(password, 12);
 
         const newUser = await new User({
             name,
             email,
             password: hashPassword,
+            uniqueID
         });
 
      await newUser.save();
@@ -30,6 +44,41 @@ exports.postRegistration = async (req, res) => {
     }
 }
 
+
+exports.postRegistrationFromAdmin = async (req, res) => {
+    const {
+        name,
+        email,
+        password,
+    } = req.body;
+
+
+    try {
+
+
+        if(!email || !password) {
+          return  res.redirect("/users");
+        }
+
+        const uniqueID =  generateUniqueID()
+
+
+
+        const hashPassword = await bcrypt.hash(password, 12);
+
+        const newUser = await new User({
+            name,
+            email,
+            password: hashPassword,
+            uniqueID : uniqueID
+        });
+
+     await newUser.save();
+     res.redirect("/users");
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 exports.getLogin = (req, res) => {
     res.render("auth/login");

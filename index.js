@@ -13,7 +13,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const User = require("./models/User.model");
 
 const app = express();
-const port = 8080;
+const port = 3001;
 
 // Static Files and EJS
 app.use(express.static(path.join(__dirname, "public")));

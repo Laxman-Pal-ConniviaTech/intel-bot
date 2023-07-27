@@ -9,6 +9,7 @@ router.get("/login", authController.getLogin);
 
 // POST Routes
 router.post("/register", authController.postRegistration);
+router.post("/register-from-admin", authController.postRegistrationFromAdmin);
 router.post("/login", authController.postLogin);
 
 
